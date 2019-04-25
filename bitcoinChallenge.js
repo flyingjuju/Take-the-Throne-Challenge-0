@@ -8030,3 +8030,57 @@ var bitcoinData = [
   "activeAddresses": null
 }
 ]
+// 1. log the bitcoinData object
+console.log(bitcoinData);
+
+// 2. date type of bitcoinData & get infro on 2013-05-1
+console.log(typeof(bitcoinData));
+var infoMayFirst2013 = []
+bitcoinData.map(function(info) {
+  if(info["date"] === "2013-05-01") {
+    infoMayFirst2013.push(info)
+  }
+});
+console.log(infoMayFirst2013);
+
+// 3. create array containing only date and price
+var result = [];
+bitcoinData.map(function(info) {
+  var tmp = [];
+  tmp = [info["date"],info["price(USD)"]];
+  result.push(tmp);
+})
+console.log(result)
+
+// 4. create array only including days when exchange exchangeVolume was NOT 0;
+var exVol = bitcoinData.filter(function(infoObj) {
+  return infoObj["exchangeVolume(USD)"] !== 0;
+})
+console.log(exVol)
+
+// 5. How many bitcons have been generated
+var totalBitcons  = bitcoinData.reduce(function (acc,infoObj) {
+  return acc+infoObj["generatedCoins"];
+},0)
+console.log(totalBitcons)
+
+// 6. count how many days bitcons has price over $100
+var count = 0;
+bitcoinData.map(function(infoObj) {
+  if(infoObj["price(USD)"] > 100) {
+    count++;
+  }
+})
+console.log(count)
+
+var priceOver100 = bitcoinData.filter(function(infoObj) {
+  return infoObj["price(USD)"] > 100
+})
+console.log(priceOver100.length)
+
+// 7. find average bitcons transaction fee
+var totalFee = bitcoinData.reduce(function (acc,infoObj) {
+  return acc+infoObj["fees"];
+},0)
+
+console.log(Math.floor(totalFee/bitcoinData.length))
